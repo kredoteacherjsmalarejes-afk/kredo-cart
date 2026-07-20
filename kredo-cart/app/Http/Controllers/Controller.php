@@ -2,16 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use App\Models\User;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Foundation\Validation\ValidatesRequests;
+use Illuminate\Routing\Controller as BaseController;
 
-abstract class Controller
+class Controller extends BaseController
 {
-    private User $user;
-
-    public function __construct(User $user)
-    {
-        $this->user = $user;
-    }
+    use AuthorizesRequests, ValidatesRequests;
 }
