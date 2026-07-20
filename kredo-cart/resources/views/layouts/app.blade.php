@@ -27,35 +27,21 @@
             KredoCart
         </a>
 
-        <button
-            class="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarSupportedContent"
-        >
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
             <span class="navbar-toggler-icon"></span>
         </button>
 
-        <div
-            class="collapse navbar-collapse"
-            id="navbarSupportedContent"
-        >
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
             {{-- Left side --}}
             <ul class="navbar-nav me-auto">
                 <li class="nav-item">
-                    <a
-                        href="{{ route('products.index') }}"
-                        class="nav-link"
-                    >
+                    <a href="{{ route('products.index') }}" class="nav-link">
                         Products
                     </a>
                 </li>
 
                 <li class="nav-item">
-                    <a
-                        href="{{ route('categories.index') }}"
-                        class="nav-link"
-                    >
+                    <a href="{{ route('categories.index') }}" class="nav-link">
                         Categories
                     </a>
                 </li>
@@ -65,73 +51,42 @@
             <ul class="navbar-nav ms-auto">
                 @guest
                     <li class="nav-item">
-                        <a
-                            class="nav-link"
-                            href="{{ route('login') }}"
-                        >
+                        <a class="nav-link" href="{{ route('login') }}">
                             Login
                         </a>
                     </li>
 
                     <li class="nav-item">
-                        <a
-                            class="nav-link"
-                            href="{{ route('register') }}"
-                        >
+                        <a class="nav-link" href="{{ route('register') }}">
                             Register
                         </a>
                     </li>
                 @else
                     <li class="nav-item">
-                        <a
-                            href="{{ route('cart.index') }}"
-                            class="nav-link"
-                        >
+                        <a href="{{ route('cart.index') }}" class="nav-link">
                             <i class="fa-solid fa-cart-shopping"></i>
                             Cart
                         </a>
                     </li>
 
                     <li class="nav-item">
-                        <a
-                            href="{{ route('orders.index') }}"
-                            class="nav-link"
-                        >
+                        <a href="{{ route('orders.index') }}" class="nav-link">
                             Orders
                         </a>
                     </li>
 
                     <li class="nav-item dropdown">
-                        <a
-                            class="nav-link dropdown-toggle"
-                            href="#"
-                            role="button"
-                            data-bs-toggle="dropdown"
-                        >
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
                             {{ Auth::user()->name }}
                         </a>
 
                         <ul class="dropdown-menu dropdown-menu-end">
                             <li>
-                                <a
-                                    class="dropdown-item"
-                                    href="{{ route('logout') }}"
-                                    onclick="
-                                        event.preventDefault();
-                                        document
-                                            .getElementById('logout-form')
-                                            .submit();
-                                    "
-                                >
+                                <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document .getElementById('logout-form').submit();">
                                     Logout
                                 </a>
 
-                                <form
-                                    id="logout-form"
-                                    action="{{ route('logout') }}"
-                                    method="POST"
-                                    class="d-none"
-                                >
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                     @csrf
                                 </form>
                             </li>
