@@ -1,5 +1,6 @@
 <?php
 
+
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
@@ -7,6 +8,11 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\Admin\UsersController;
+use App\Http\Controllers\Admin\OrdersController;
+use App\Http\Controllers\Admin\ProductsController;
+use App\Http\Controllers\Admin\CategoriesController;
+
 
 Auth::routes();
 
@@ -30,6 +36,43 @@ Route::get('/categories/{category}', [CategoryController::class, 'show'])
 
 // Logged-in user routes
 Route::middleware('auth')->group(function () {
+
+//　Admin
+    Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware', 'admin'], function () {
+        // Users
+        Route::get('/users', [UsersController::class, 'index'])
+            ->name('users.index');
+        Route::delete('/users/{id}/deactivate', [UsersController::class, 'deactivate'])
+            ->name('users.deactivate');
+        Route::patch('/users/{id}/activate', [UsersController::class, 'activate'])
+            ->name('users.activate');
+
+        Route::get('/products', [ProductsController::class, 'index'])
+            ->name('products.index');
+        Route::patch('/products/{id}/deactivate', [ProductsController::class, 'deactivate'])
+            ->name('products.deactivate');
+        Route::patch('/products/{id}/activate', [ProductsController::class, 'activate'])
+            ->name('products.activate');
+        Route::get('/products/create', [ProductsController::class, 'create'])
+            ->name('products.create');
+        Route::post('/products', [ProductsController::class, 'store'])
+            ->name('products.store');
+        Route::get('/products/{product}/edit', [ProductsController::class, 'edit'])
+            ->name('products.edit');
+        Route::patch('/products/{product}', [ProductsController::class, 'update'])
+            ->name('products.update');
+        Route::delete('/products/{product}', [ProductsController::class, 'destroy'])
+            ->name('products.destroy');
+
+        // Admin product routes
+        Route::get('/categories', [CategoriesController::class, 'index'])
+            ->name('categories.index');
+
+        // Admin category routes
+        Route::get('/orders', [OrdersController::class, 'index'])
+            ->name('orders.index');
+    });
+
     // Cart
     Route::get('/cart', [CartController::class, 'index'])
         ->name('cart.index');

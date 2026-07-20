@@ -7,7 +7,7 @@ use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
-class ProductController extends Controller
+class ProductsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -68,7 +68,7 @@ class ProductController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $product)
+    public function show(Product $product)
     {
         // Do not display discontinued products to general users
         abort_if($product->status !== '1', 404);
@@ -88,7 +88,7 @@ class ProductController extends Controller
             'relatedProducts'
         ));
     }
- 
+
 
     /**
      * Show the form for editing the specified resource.
