@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -7,7 +8,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ config('app.name') }} | @yield('title')</title>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.bunny.net">
@@ -19,89 +20,126 @@
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
 </head>
+
 <body>
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-dark bg-dark shadow-sm">
-    <div class="container">
-        <a class="navbar-brand fw-bold" href="{{ route('products.index') }}">
-            KredoCart
-        </a>
+            <div class="container">
+                <a class="navbar-brand fw-bold" href="{{ route('products.index') }}">
+                    <i class="fa-solid fa-store text-warning"></i> KredoCart
+                </a>
 
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
 
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            {{-- Left side --}}
-            <ul class="navbar-nav me-auto">
-                <li class="nav-item">
-                    <a href="{{ route('products.index') }}" class="nav-link">
-                        Products
-                    </a>
-                </li>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    {{-- Left side --}}
+                    <ul class="navbar-nav me-auto">
+                        <li class="nav-item">
+                            <a href="{{ route('home') }}" class="nav-link">
+                                <i class="fa-solid fa-house"></i> Home
+                            </a>
+                        </li>
 
-                <li class="nav-item">
-                    <a href="{{ route('categories.index') }}" class="nav-link">
-                        Categories
-                    </a>
-                </li>
-            </ul>
+                    </ul>
 
-            {{-- Right side --}}
-            <ul class="navbar-nav ms-auto">
-                @guest
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('login') }}">
-                            Login
-                        </a>
-                    </li>
+                    {{-- Right side --}}
+                    <ul class="navbar-nav ms-auto">
+                        @guest
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('login') }}">
+                                    Login
+                                </a>
+                            </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('register') }}">
-                            Register
-                        </a>
-                    </li>
-                @else
-                    <li class="nav-item">
-                        <a href="{{ route('cart.index') }}" class="nav-link">
-                            <i class="fa-solid fa-cart-shopping"></i>
-                            Cart
-                        </a>
-                    </li>
+                            <li class="nav-item">
+                                <a class="nav-link bg-warning text-dark rounded" href="{{ route('register') }}">
+                                    Register
+                                </a>
+                            </li>
+                        @else
+                            <li class="nav-item">
+                                <a href="{{ route('orders.index') }}" class="nav-link">
+                                    <i class="fa-solid fa-bag-shopping"></i> My Orders
+                                </a>
+                            </li>
 
-                    <li class="nav-item">
-                        <a href="{{ route('orders.index') }}" class="nav-link">
-                            Orders
-                        </a>
-                    </li>
+                            <li class="nav-item">
+                                <a href="{{ route('cart.index') }}" class="nav-link">
+                                    <i class="fa-solid fa-cart-shopping"></i>
+                                </a>
+                            </li>
 
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-                            {{ Auth::user()->name }}
-                        </a>
-
-                        <ul class="dropdown-menu dropdown-menu-end">
-                            <li>
-                                <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document .getElementById('logout-form').submit();">
-                                    Logout
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                                    {{ Auth::user()->name }}
                                 </a>
 
-                                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                    @csrf
-                                </form>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li></li>
+                                    <li></li>
+                                    <li>
+                                        <a class="dropdown-item" href="{{ route('logout') }}"
+                                            onclick="event.preventDefault(); document .getElementById('logout-form').submit();">
+                                            Logout
+                                        </a>
+
+                                        <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                                            class="d-none">
+                                            @csrf
+                                        </form>
+                                    </li>
+                                </ul>
                             </li>
-                        </ul>
-                    </li>
-                @endguest
-            </ul>
-        </div>
-    </div>
-</nav>
+                        @endguest
+                    </ul>
+                </div>
+            </div>
+        </nav>
 
 
         <main class="py-4">
+
+            {{-- Flash Message --}}
+            @if (session('success'))
+                <div class="container">
+                    <div class="alert alert-success alert-dismissible fade show">
+                        {{ session('success') }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                </div>
+            @endif
+
+            @if (session('error'))
+                <div class="container">
+                    <div class="alert alert-danger alert-dismissible fade show">
+                        <ul class="mb-0">
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                </div>
+            @endif
+
+            @if ($errors->any())
+                <div class="container">
+                    <div class="alert alert-danger">
+                        <ul class="mb-0">
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                </div>
+            @endif
+
             @yield('content')
         </main>
     </div>
 </body>
+
 </html>
