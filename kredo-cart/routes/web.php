@@ -61,5 +61,6 @@ Route::middleware('auth')->group(function () {
         ->name('orders.show');
 });
 
+Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
