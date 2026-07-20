@@ -13,13 +13,13 @@
                 </div>
 
                 <div class="list-group list-group-flush">
-                    <a href="{{ route('products.index') }}" class="list-group-item list-group-item-action">
+                    <a href="{{ route('products.index') }}" class="list-group-item list-group-item-action {{ request('category') ? '' : 'active' }}">
                         All Products
                     </a>
 
                     @foreach ($categories as $category)
                         <a href="{{ route('products.index', ['category' => $category->id]) }}"
-                            class="list-group-item list-group-item-action d-flex justify-content-between">
+                            class="list-group-item list-group-item-action d-flex justify-content-between {{ request('category') == $category->id ? 'active' : '' }}">
                             <span>{{ $category->category_name }}</span>
 
                             <span class="badge bg-secondary">
