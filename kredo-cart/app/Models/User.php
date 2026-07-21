@@ -13,6 +13,9 @@ class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
+    public const ADMIN_ROLE_ID = 1;
+
+    public const USER_ROLE_ID = 2;
 
     /**
      * The attributes that are mass assignable.
@@ -46,6 +49,7 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'role' => 'integer',
         ];
     }
 
