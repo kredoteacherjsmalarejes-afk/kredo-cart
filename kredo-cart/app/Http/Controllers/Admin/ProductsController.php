@@ -43,7 +43,7 @@ class ProductsController extends Controller
             }
         ])->orderBy('category_name')->get();
 
-        return view('products.index', compact(
+        return view('admin.products.index', compact(
             'products',
             'categories'
         ));
