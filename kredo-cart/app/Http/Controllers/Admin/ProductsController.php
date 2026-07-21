@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ProductsController extends Controller
 {
@@ -35,23 +36,33 @@ class ProductsController extends Controller
 
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
+        $request->validate([
             'category_id' => 'required|exists:categories,id',
             'product_name' => 'required|string|max:255',
             'description' => 'nullable|string',
             'price' => 'required|numeric|min:0',
             'stock' => 'required|integer|min:0',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
         ]);
 
+        $this->product->category_id = $request->category_id;
+        $this->product->product_name = $request->product_name;
+        $this->product->description = $request->description;
+        $this->product->price = $request->price;
+        $this->product->stock = $request->stock;
+        $this->product->status = 1;
+
         if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('products', 'public');
-            $validatedData['image'] = $imagePath;
+            $this->product->image = $request
+                ->file('image')
+                ->store('products', 'public');
         }
 
-        $this->product->create($validatedData);
+        $this->product->save();
 
-        return redirect()->route('admin.products.index')->with('success', 'Product created successfully.');
+        return redirect()
+            ->route('admin.products.index')
+            ->with('success', 'Product created successfully.');
     }
 
     public function edit(Product $product)
@@ -66,23 +77,36 @@ class ProductsController extends Controller
 
     public function update(Request $request, Product $product)
     {
-        $validatedData = $request->validate([
+        $request->validate([
             'category_id' => 'required|exists:categories,id',
             'product_name' => 'required|string|max:255',
             'description' => 'nullable|string',
             'price' => 'required|numeric|min:0',
             'stock' => 'required|integer|min:0',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
         ]);
 
+        $product->category_id = $request->category_id;
+        $product->product_name = $request->product_name;
+        $product->description = $request->description;
+        $product->price = $request->price;
+        $product->stock = $request->stock;
+
         if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('products', 'public');
-            $validatedData['image'] = $imagePath;
+            if ($product->image) {
+                Storage::disk('public')->delete($product->image);
+            }
+
+            $product->image = $request
+                ->file('image')
+                ->store('products', 'public');
         }
 
-        $product->update($validatedData);
+        $product->save();
 
-        return redirect()->route('admin.products.index')->with('success', 'Product updated successfully.');
+        return redirect()
+            ->route('admin.products.index')
+            ->with('success', 'Product updated successfully.');
     }
 
     public function destroy(Product $product)

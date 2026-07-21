@@ -22,17 +22,25 @@
                         <i class="fa-solid fa-arrow-left me-1"></i>
                         Back to Categories
                     </a>
+                </div>
 
-                    <div class="card">
-                        <h4 class="card-title">Category Information</h4>
 
-                        <div class="card-body">
-                            <label for="name" class="form-label">Category Name</label>
-                            <input type="text" name="name" id="name" class="form-control" value="{{ old('name') }}">
+                <form action="{{ route('admin.categories.store') }}" method="POST" class="card shadow rounded-0 p-4">
+                    @csrf
+                    <div class="card-title fs-3">Category Information</div>
+                    <div class="card-body">
+                        <label for="name" class="form-label">Category Name</label>
+                        <input type="text" name="name" id="name" class="form-control" value="{{ old('name') }}">
 
-                            <label for="description" class="form-label mt-3">Description</label>
-                            <textarea name="description" id="description" class="form-control" rows="4">{{ old('description') }}</textarea>
-                        </div>
+                        <label for="description" class="form-label mt-3">Description</label>
+                        <textarea name="description" id="description" class="form-control" rows="4">{{ old('description') }}</textarea>
+                    </div>
+
+                    <div class="d-flex justify-content-end mt-4">
+                        <button type="submit" class="btn btn-warning">Save Category</button>
+                        <a href="{{ route('admin.categories.index') }}" class="btn btn-secondary ms-2">
+                            Cancel
+                        </a>
                     </div>
                 </div>
 

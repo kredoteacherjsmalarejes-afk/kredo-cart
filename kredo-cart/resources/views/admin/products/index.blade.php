@@ -43,9 +43,19 @@
                         @foreach ($products as $product)
                             <tr>
                                 <td>{{ $product->id }}</td>
-                                <td><img src="{{ $product->image_url }}" alt="{{ $product->name }}" width="50"></td>
-                                <td>{{ $product->name }}</td>
-                                <td>{{ $product->category->name }}</td>
+                                <td>
+                                    @if ($product->image)
+                                        <img src="{{ asset('storage/' . $product->image) }}"
+                                            alt="{{ $product->product_name }}" width="50" height="50"
+                                            class="object-fit-cover rounded">
+                                    @else
+                                        <span class="text-muted small">
+                                            No image
+                                        </span>
+                                    @endif
+                                </td>
+                                <td>{{ $product->product_name }}</td>
+                                <td>{{ $product->category->category_name }}</td>
                                 <td>{{ $product->price }}</td>
                                 <td>{{ $product->stock }}</td>
                                 <td>{{ $product->status }}</td>
