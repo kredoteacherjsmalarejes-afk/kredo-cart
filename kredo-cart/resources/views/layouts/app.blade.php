@@ -91,6 +91,14 @@
                                 </a>
 
                                 <ul class="dropdown-menu dropdown-menu-end">
+
+                                      @can('admin')
+                                        {{-- Admin Controls --}}
+                                        <a href="{{ route('admin.products.index') }}" class="dropdown-item">
+                                            <i class="fa-solid fa-user-gear"></i> Admin
+                                        </a>
+                                        <hr class="dropdown-divider">
+                                    @endcan
                                     <li class="nav-item">
                                         <a href="{{ route('orders.index') }}" class="dropdown-item">
                                             <i class="fa-solid fa-bag-shopping"></i> My Orders
