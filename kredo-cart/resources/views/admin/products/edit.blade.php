@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Add New Product')
+@section('title', 'Edit Product')
 
 @section('content')
 <div class="container-fluid px-0">
@@ -11,7 +11,7 @@
 {{-- Main content --}}
         <main class="col-md-10 bg-light p-4">
             <div class="d-flex justify-content-between align-items-start mb-4">
-                <div>
+
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb small mb-2">
                             <li class="breadcrumb-item">
@@ -22,17 +22,16 @@
                             </li>
 
                             <li class="breadcrumb-item active">
-                                Add New Product
+                                Edit Product
                             </li>
                         </ol>
                     </nav>
 
-                    <h1 class="h3 mb-1">Add New Product</h1>
+                    <h1 class="h3 mb-1">Edit Product</h1>
 
                     <p class="text-muted mb-0">
-                        Create a new item for your marketplace inventory.
+                        Edit the details of your marketplace item.
                     </p>
-                </div>
 
                 <a href="{{ route('admin.products.index') }}"
                    class="btn btn-outline-secondary">
@@ -54,11 +53,12 @@
             @endif
 
             <form
-                action="{{ route('admin.products.store') }}"
+                action="{{ route('admin.products.update', $product->id) }}"
                 method="POST"
                 enctype="multipart/form-data"
             >
                 @csrf
+                @method('PUT')
 
                 <div class="row g-3">
                     {{-- Left side --}}
@@ -79,7 +79,7 @@
                                         type="text"
                                         id="product_name"
                                         name="product_name"
-                                        value="{{ old('product_name') }}"
+                                        value="{{ old('product_name', $product->product_name) }}"
                                         class="form-control @error('product_name') is-invalid @enderror"
                                         placeholder="e.g. Wireless Noise-Canceling Headphones"
                                         required
@@ -111,7 +111,7 @@
                                         @foreach ($categories as $category)
                                             <option
                                                 value="{{ $category->id }}"
-                                                @selected(old('category_id') == $category->id)
+                                                @selected(old('category_id', $product->category_id) == $category->id)
                                             >
                                                 {{ $category->category_name }}
                                             </option>
@@ -138,7 +138,7 @@
                                         class="form-control @error('description') is-invalid @enderror"
                                         placeholder="Provide a detailed description of the product..."
                                         required
-                                    >{{ old('description') }}</textarea>
+                                    >{{ old('description', $product->description) }}</textarea>
 
                                     @error('description')
                                         <div class="invalid-feedback">
@@ -171,7 +171,7 @@
                                             type="number"
                                             id="price"
                                             name="price"
-                                            value="{{ old('price') }}"
+                                            value="{{ old('price', $product->price) }}"
                                             min="0"
                                             step="0.01"
                                             class="form-control @error('price') is-invalid @enderror"
@@ -197,7 +197,7 @@
                                         type="number"
                                         id="stock"
                                         name="stock"
-                                        value="{{ old('stock', 0) }}"
+                                        value="{{ old('stock', $product->stock) }}"
                                         min="0"
                                         class="form-control @error('stock') is-invalid @enderror"
                                         required
@@ -222,11 +222,11 @@
                                         class="form-select @error('status') is-invalid @enderror"
                                         required
                                     >
-                                        <option value="1" @selected(old('status', '1') === '1')>
+                                        <option value="1" @selected(old('status', $product->status) === '1')>
                                             Available
                                         </option>
 
-                                        <option value="2" @selected(old('status') === '2')>
+                                        <option value="2" @selected(old('status', $product->status) === '2')>
                                             Unavailable
                                         </option>
                                     </select>

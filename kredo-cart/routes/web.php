@@ -16,7 +16,9 @@ use App\Http\Controllers\Admin\CategoriesController;
 
 Auth::routes();
 
-
+Route::get('/', function () {
+    return view('welcome');
+});
 
 // Public product routes
 Route::get('/', [ProductController::class, 'index'])
