@@ -16,7 +16,9 @@ use App\Http\Controllers\Admin\CategoriesController;
 
 Auth::routes();
 
-
+Route::get('/', function () {
+    return view('welcome');
+});
 
 // Public product routes
 Route::get('/', [ProductController::class, 'index'])
@@ -34,9 +36,9 @@ Route::get('/categories/{category}', [CategoryController::class, 'show'])
 
 // Logged-in user routes
 Route::middleware('auth')->group(function () {
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-    Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth', 'admin']], function () {
+//　Admin
+    Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware', 'admin'], function () {
         // Users
         Route::get('/users', [UsersController::class, 'index'])
             ->name('users.index');
