@@ -9,108 +9,106 @@ use Illuminate\Http\Request;
 
 class ProductsController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index(Request $request)
+    private $product;
+
+    private $category;
+
+    public function __construct(Product $product, Category $category)
     {
-        $query = Product::with('category')->where('status', 1);
-
-        // Filter by product name if provided
-        if ($request->filled('search')) {
-            $search = $request->search;
-
-            $query->where(function ($productQuery) use ($search) {
-                $productQuery
-                    ->where('product_name', 'like', "%{$search}%")
-                    ->orWhere('description', 'like', "%{$search}%");
-            });
-        }
-
-        // Filter by category if provided
-        if ($request->filled('category')) {
-            $query->where('category_id', $request->category);
-        }
-
-        $products = $query
-            ->latest()
-            ->paginate(12)
-            ->withQueryString();
-
-        $categories = Category::withCount([
-            'products' => function ($productQuery) {
-                $productQuery->where('status', '1');
-            }
-        ])->orderBy('category_name')->get();
-
-        return view('admin.products.index', compact(
-            'products',
-            'categories'
-        ));
+        $this->product = $product;
+        $this->category = $category;
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+    public function index()
+    {
+        $products = $this->product->with('category')->get();
+
+        return view('admin.products.index')->with('products', $products);
+    }
+
     public function create()
     {
-        //
+        $categories = $this->category->all();
+
+        return view('admin.products.create')->with('categories', $categories);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'category_id' => 'required|exists:categories,id',
+            'product_name' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'price' => 'required|numeric|min:0',
+            'stock' => 'required|integer|min:0',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('products', 'public');
+            $validatedData['image'] = $imagePath;
+        }
+
+        $this->product->create($validatedData);
+
+        return redirect()->route('admin.products.index')->with('success', 'Product created successfully.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Product $product)
+    public function edit(Product $product)
     {
-        // Do not display discontinued products to general users
-        abort_if($product->status !== '1', 404);
+        $categories = $this->category->all();
 
-        $product->load('category');
-
-        $relatedProducts = Product::with('category')
-            ->where('status', '1')
-            ->where('category_id', $product->category_id)
-            ->where('id', '!=', $product->id)
-            ->latest()
-            ->limit(4)
-            ->get();
-
-        return view('products.show', compact(
-            'product',
-            'relatedProducts'
-        ));
+        return view('admin.products.edit')->with([
+            'product' => $product,
+            'categories' => $categories,
+        ]);
     }
 
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function update(Request $request, Product $product)
     {
-        //
+        $validatedData = $request->validate([
+            'category_id' => 'required|exists:categories,id',
+            'product_name' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'price' => 'required|numeric|min:0',
+            'stock' => 'required|integer|min:0',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('products', 'public');
+            $validatedData['image'] = $imagePath;
+        }
+
+        $product->update($validatedData);
+
+        return redirect()->route('admin.products.index')->with('success', 'Product updated successfully.');
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function destroy(Product $product)
     {
-        //
+        $product->delete();
+
+        return redirect()->route('admin.products.index')->with('success', 'Product deleted successfully.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function deactivate($id)
     {
-        //
+        $product = $this->product->findOrFail($id);
+        $product->status = 0; // Set status to inactive
+        $product->save();
+
+        return redirect()->route('admin.products.index')->with('success', 'Product deactivated successfully.');
     }
+
+    public function activate($id)
+    {
+        $product = $this->product->findOrFail($id);
+        $product->status = 1; // Set status to active
+        $product->save();
+
+        return redirect()->route('admin.products.index')->with('success', 'Product activated successfully.');
+    }
+
+
 }
