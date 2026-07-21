@@ -67,10 +67,27 @@ Route::middleware('auth')->group(function () {
         // Admin product routes
         Route::get('/categories', [CategoriesController::class, 'index'])
             ->name('categories.index');
+        Route::get('/categories/create', [CategoriesController::class, 'create'])
+            ->name('categories.create');
+        Route::post('/categories', [CategoriesController::class, 'store'])
+            ->name('categories.store');
+        Route::get('/categories/{category}/edit', [CategoriesController::class, 'edit'])
+            ->name('categories.edit');
+        Route::patch('/categories/{category}', [CategoriesController::class, 'update'])
+            ->name('categories.update');
+        Route::delete('/categories/{category}', [CategoriesController::class, 'destroy'])
+            ->name('categories.destroy');
 
         // Admin category routes
         Route::get('/orders', [OrdersController::class, 'index'])
             ->name('orders.index');
+        Route::get('/orders/{order}', [OrdersController::class, 'show'])
+            ->name('orders.show');
+        Route::patch('/orders/{order}/update-status', [OrdersController::class, 'updateStatus'])
+            ->name('orders.updateStatus');
+        Route::delete('/orders/{order}', [OrdersController::class, 'destroy'])
+            ->name('orders.destroy');
+
     });
 
     // Cart
