@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use Illuminate\Http\RedirectResponse;
 
 class HomeController extends Controller
 {
@@ -21,16 +22,16 @@ class HomeController extends Controller
     /**
      * Show the application dashboard.
      *
-     * @return \Illuminate\Contracts\Support\Renderable
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function index()
+    public function index(): RedirectResponse
     {
         $user = Auth::user();
 
-        if ($user->role_id === User::ADMIN_ROLE_ID) {
-            return redirect()->route('admin.dashboard');
-        } else {
-            // return redirect()->route('products.index');
+        if ($user->role === User::ADMIN_ROLE_ID) {
+            return redirect()->route('admin.products.index');
         }
+
+        return redirect()->route('products.index');
     }
 }
