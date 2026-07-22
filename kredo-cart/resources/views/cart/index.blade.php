@@ -142,7 +142,7 @@
 
                                 {{-- Price --}}
                                 <div class="col-2 text-center">
-                                    ₱{{ number_format($cartItem->product->price, 2) }}
+                                    ${{ number_format($cartItem->product->price, 2) }}
                                 </div>
 
                                 {{-- Quantity --}}
@@ -205,7 +205,7 @@
 
                                 {{-- Subtotal --}}
                                 <div class="col-2 text-end fw-semibold">
-                                    ₱{{ number_format(
+                                    ${{ number_format(
                                         $cartItem->product->price * $cartItem->quantity,
                                         2
                                     ) }}
@@ -234,7 +234,7 @@
                             </span>
 
                             <span>
-                                ₱{{ number_format($subtotal, 2) }}
+                                ${{ number_format($subtotal, 2) }}
                             </span>
                         </div>
 
@@ -256,7 +256,7 @@
                             </span>
 
                             <span class="fw-bold fs-5">
-                                ₱{{ number_format($subtotal, 2) }}
+                                ${{ number_format($subtotal, 2) }}
                             </span>
                         </div>
 

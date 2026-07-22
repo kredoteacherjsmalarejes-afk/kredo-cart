@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Order;
+use App\Models\OrderItem;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class CheckoutController extends Controller
 {
@@ -43,6 +46,56 @@ public function store(Request $request)
             'in:cash_on_delivery,credit_card,paypal',
         ],
     ]);
+
+    $cart = auth()->user()
+            ->cart()
+            ->with('cartItems.product')
+            ->first();
+
+        if (!$cart || $cart->cartItems->isEmpty()) {
+            return redirect()
+                ->route('cart.index')
+                ->with('error', 'Your cart is empty.');
+        }
+
+        $subtotal = $cart->cartItems->sum(function ($cartItem) {
+            return $cartItem->product->price * $cartItem->quantity;
+        });
+
+        $order = DB::transaction(function () use ($request, $cart, $subtotal) {
+
+            $order = Order::create([
+                'user_id' => auth()->id(),
+                'shipping_address' => $request->shipping_address,
+                'payment_method' => $request->payment_method,
+                'total_amount' => $subtotal,
+                'status' => 'pending',
+            ]);
+
+            foreach ($cart->cartItems as $cartItem) {
+                $product = $cartItem->product;
+
+                if ($cartItem->quantity > $product->stock) {
+                    throw new \Exception(
+                        $product->product_name . ' does not have enough stock.'
+                    );
+                }
+
+                OrderItem::create([
+                    'order_id' => $order->id,
+                    'product_id' => $product->id,
+                    'quantity' => $cartItem->quantity,
+                    'price' => $product->price,
+                    'subtotal' => $product->price * $cartItem->quantity,
+                ]);
+
+                $product->decrement('stock', $cartItem->quantity);
+            }
+
+            $cart->cartItems()->delete();
+
+            return $order;
+        });
 
     // Implement the order registration process here.
 
