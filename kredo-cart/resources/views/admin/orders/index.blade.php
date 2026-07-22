@@ -42,14 +42,17 @@
                     <tbody>
                         @foreach ($orders as $order)
                             <tr>
+                                <td></td>
                                 <td>{{ $order->id }}</td>
-                                <td>{{ $order->user->customer_name }}</td>
+                                <td>{{ optional($order->user)->name ?? 'Unknown Customer' }}</td >
                                 <td>{{ $order->total_amount}}</td>
                                 <td>{{ $order->total }}</td>
                                 <td>{{ $order->status }}</td>
+                                <td></td>
+                                <td><button type="button" class="btn btn-outline-primary btn-lg">Update</button></td>
+                                <td>{{ $order->payment_status }}</td>
                                 <td>
-                                    <a href="{{ route('admin.orders.edit', $order->id) }}"
-                                        class="btn btn-lg btn-primary"><i class="fa-regular fa-pen-to-square"></i></a>
+
 
                                       <button type="button" class="btn btn-outline-danger btn-lg" data-bs-toggle="modal" data-bs-target="#delete-order-{{ $order->id }}"><i class="fa-solid fa-trash-can text-danger"></i></button>
                                     @include('admin.orders.modals.delete')

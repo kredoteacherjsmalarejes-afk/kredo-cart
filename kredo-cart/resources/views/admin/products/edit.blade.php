@@ -246,6 +246,15 @@
                             </div>
 
                             <div class="card-body">
+                                @if ($product->image)
+                                    <div class="mb-3">
+                                        <img
+                                            src="{{ asset('storage/' . $product->image) }}"
+                                            alt="{{ $product->product_name }}"
+                                            class="img-fluid rounded mb-2"
+                                        >
+                                    </div>
+                                @endif
                                 <label for="image" class="form-label">
                                     Upload Image
                                     <span class="text-muted">(Optional)</span>

@@ -32,11 +32,14 @@
                     </thead>
                     <tbody>
                         @foreach ($customers as $customer)
+                        @if ($customer->role !== 1)
                             <tr>
                                 <td>{{ $customer->id }}</td>
                                 <td>{{ $customer->name }}</td>
                                 <td>{{ $customer->email }}</td>
-                                <td>{{ $customer->role }}</td>
+                                <td>
+                                    <p class="mb-1 bg-success rounded-2 text-center text-white">{{ $customer->role === 2 ? 'Customer' : 'Admin' }}</p>
+                                </td>
                                 <td>{{ $customer->created_at }}</td>
                                 <td>
                                     <button type="button" class="btn btn-outline-danger btn-lg" data-bs-toggle="modal" data-bs-target="#delete-customer-{{ $customer->id }}"><i class="fa-solid fa-trash-can text-danger"></i></button>
@@ -44,11 +47,10 @@
 
                                 </td>
                             </tr>
+                        @endif
                         @endforeach
                     </tbody>
                 </table>
-
-
             </div>
         </div>
     </div>
