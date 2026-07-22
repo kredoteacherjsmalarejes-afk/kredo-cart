@@ -95,37 +95,40 @@ Route::middleware('auth')->group(function () {
         Route::delete('/customers/{customer}', [CustomersController::class, 'destroy'])
             ->name('customers.destroy');
     });
+    
+        // Cart
+        Route::get('/cart', [CartController::class, 'index'])
+            ->name('cart.index');
 
-    // Cart
-    Route::get('/cart', [CartController::class, 'index'])
-        ->name('cart.index');
+        Route::post('/cart', [CartController::class, 'store'])
+            ->name('cart.store');
 
-    Route::post('/cart', [CartController::class, 'store'])
-        ->name('cart.store');
+        Route::patch('/cart/{cartItem}', [CartController::class, 'update'])
+            ->name('cart.update');
 
-    Route::patch('/cart/{cartItem}', [CartController::class, 'update'])
-        ->name('cart.update');
+        Route::delete('/cart/{cartItem}', [CartController::class, 'destroy'])
+            ->name('cart.destroy');
 
-    Route::delete('/cart/{cartItem}', [CartController::class, 'destroy'])
-        ->name('cart.destroy');
+        Route::delete('/cart', [CartController::class, 'clear'])
+            ->name('cart.clear');
 
-    Route::delete('/cart', [CartController::class, 'clear'])
-        ->name('cart.clear');
+        // Checkout
+        Route::get('/checkout', [CheckoutController::class, 'index'])
+            ->name('checkout.index');
 
-    // Checkout
-    Route::get('/checkout', [CheckoutController::class, 'index'])
-        ->name('checkout.index');
+        Route::post('/checkout', [CheckoutController::class, 'store'])
+            ->name('checkout.store');
 
-    Route::post('/checkout', [CheckoutController::class, 'store'])
-        ->name('checkout.store');
+        // Orders
+        Route::get('/orders', [OrderController::class, 'index'])
+            ->name('orders.index');
 
-    // Orders
-    Route::get('/orders', [OrderController::class, 'index'])
-        ->name('orders.index');
+        Route::get('/orders/{order}/confirmation', [OrderController::class, 'confirmation'])
+            ->name('orders.confirmation');
 
-    Route::get('/orders/{order}', [OrderController::class, 'show'])
-        ->name('orders.show');
 });
+
+
 
 Auth::routes();
 
