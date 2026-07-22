@@ -58,7 +58,7 @@
                 enctype="multipart/form-data"
             >
                 @csrf
-                @method('PUT')
+                @method('PATCH')
 
                 <div class="row g-3">
                     {{-- Left side --}}

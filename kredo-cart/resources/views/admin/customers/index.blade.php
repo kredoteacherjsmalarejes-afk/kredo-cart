@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Categories')
+@section('title', 'Customers')
 
 @section('content')
     <div class="container-fluid px-0">
@@ -11,17 +11,12 @@
             <div class="col-9 gx-5">
                 <div class="d-flex justify-content-between align-items-start mb-4">
                     <div>
-                        <h1 class="h3 mb-1">Categories Management</h1>
+                        <h1 class="h3 mb-1">Customers Management</h1>
 
                         <p class="text-muted mb-0">
-                            Manage your store's categories
+                            Manage your store's customers
                         </p>
                     </div>
-
-                    <a href="{{ route('admin.categories.create') }}" class="btn btn-warning">
-                        <i class="fa-solid fa-plus me-1"></i>
-                        Add New Category
-                    </a>
                 </div>
 
                 <table class="table table-hover align-middle bg-white border">
