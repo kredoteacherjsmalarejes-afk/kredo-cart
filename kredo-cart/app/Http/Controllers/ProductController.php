@@ -8,6 +8,15 @@ use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
+
+    const STATUS_ACTIVE = 1;
+    const STATUS_INACTIVE = 2;
+
+    protected $fillable = [
+        'product_name',
+        'description',
+        'status',
+    ];
     /**
      * Display a listing of the resource.
      */

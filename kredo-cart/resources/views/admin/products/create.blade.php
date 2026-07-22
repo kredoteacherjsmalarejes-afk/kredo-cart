@@ -9,7 +9,7 @@
        @include('admin.layouts.sidebar')
 
 {{-- Main content --}}
-        <main class="col-md-10 bg-light p-4">
+        <main class="col-md-9 bg-light p-4">
             <div class="d-flex justify-content-between align-items-start mb-4">
                 <div>
                     <nav aria-label="breadcrumb">

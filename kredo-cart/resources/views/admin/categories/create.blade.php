@@ -8,7 +8,7 @@
 
             @include('admin.layouts.sidebar')
 
-            <div class="col-10 gx-5">
+            <div class="col-9 gx-5">
                 <div class="d-flex justify-content-between align-items-start mb-4">
                     <div>
                         <h1 class="h3 mb-1">Add New Category</h1>

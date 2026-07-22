@@ -39,10 +39,8 @@
                 {{-- 削除フォーム --}}
                 <form action="{{ route('admin.products.destroy', $product->id) }}"
                     method="post">
-
                     @csrf
                     @method('DELETE')
-
                     <div class="d-flex justify-content-center gap-4">
 
                         <button type="button"
