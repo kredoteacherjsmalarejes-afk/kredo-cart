@@ -1,25 +1,64 @@
-<div class="modal fade" id="delete-customer-{{ $customer->id }}">
-    <div class="modal-dialog">
-        <div class="modal-content border-danger">
-            <div class="modal-header border-danger">
-                <h3 class="modal-title text-danger">
-                    <i class="fa-solid fa-circle-exclamation"></i> Delete Customer
+<div class="modal fade" id="delete-customer-{{ $customer->id }}"
+    tabindex="-1" aria-hidden="true">
+
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 rounded-4 shadow">
+
+            {{-- ×ボタン --}}
+            <div class="modal-header border-0 pb-0">
+                <button type="button"
+                    class="btn-close ms-auto"
+                    data-bs-dismiss="modal"
+                    aria-label="Close">
+                </button>
+            </div>
+
+            <div class="modal-body text-center px-5 pt-0 pb-5">
+
+                {{-- ゴミ箱アイコン --}}
+                <div class="d-inline-flex justify-content-center align-items-center
+                            bg-danger-subtle text-danger rounded-circle p-4 mb-3">
+                    <i class="fa-solid fa-trash-can display-4 fw-bolder"></i>
+                </div>
+
+                {{-- タイトル --}}
+                <h3 class="fs-4 fw-semibold text-dark mb-2">
+                    Delete this customer?
                 </h3>
-            </div>
-            <div class="modal-body">
-                <p>Are you sure you want to delete this customer?</p>
-                <p class="mb-0 text-muted">
-                    {{ $customer->name }} ({{ $customer->email }})
+
+                {{-- 説明 --}}
+                <p class="text-muted mb-1">
+                    You're about to permanently delete
+                    {{ $customer->name }}  ({{ $customer->email }})
                 </p>
-            </div>
-            <div class="modal-footer border-0">
-                <form action="{{ route('admin.customers.destroy', $customer->id) }}" method="post">
+
+                <p class="text-danger fw-semibold small mb-4">
+                    This action cannot be undone.
+                </p>
+
+                {{-- 削除フォーム --}}
+                <form action="{{ route('admin.customers.destroy', $customer->id) }}"
+                    method="post">
+
                     @csrf
                     @method('DELETE')
 
-                    <button type="button" class="btn btn-outline-danger btn-sm" data-bs-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                    <div class="d-flex justify-content-center gap-4">
+
+                        <button type="button"
+                            class="btn btn-light border px-4 py-2"
+                            data-bs-dismiss="modal">
+                            Cancel
+                        </button>
+
+                        <button type="submit"
+                            class="btn btn-danger px-4 py-2">
+                            Delete Customer
+                        </button>
+
+                    </div>
                 </form>
+
             </div>
         </div>
     </div>

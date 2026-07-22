@@ -83,6 +83,7 @@ class ProductsController extends Controller
             'description' => 'nullable|string',
             'price' => 'required|numeric|min:0',
             'stock' => 'required|integer|min:0',
+            'status' => 'required|in:1,2',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
         ]);
 
@@ -91,6 +92,7 @@ class ProductsController extends Controller
         $product->description = $request->description;
         $product->price = $request->price;
         $product->stock = $request->stock;
+        $product->status = $request->status;
 
         if ($request->hasFile('image')) {
             if ($product->image) {
