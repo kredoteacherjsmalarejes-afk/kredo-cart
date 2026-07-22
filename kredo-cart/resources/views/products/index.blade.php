@@ -40,7 +40,7 @@
                             </span>
 
                             <input type="text" name="search" value="{{ request('search') }}"
-                                class="form-control border-0" placeholder="Search for products...">
+                                class="form-control border-0 rounded-start" placeholder="Search for products...">
 
                             <button type="submit" class="btn btn-warning px-4">
                                 <i class="fa-solid fa-magnifying-glass me-1"></i>
@@ -69,7 +69,8 @@
                 </div>
 
                 {{-- Right side --}}
-                <a href="{{ route('products.index') }}" class="col-lg-5 bg-warning rounded-4 p-4 d-flex justify-content-center align-items-center text-decoration-none">
+                <a href="{{ route('products.index') }}"
+                    class="col-lg-5 bg-warning rounded-4 p-4 d-flex justify-content-center align-items-center text-decoration-none">
                     <span class="display-3 fw-bold text-dark">
                         Shop Now
                     </span>
@@ -84,34 +85,29 @@
                 Shop by Category
             </h2>
 
-            <div class="category-scroll">
+            <div class="category-scroll d-flex flex-nowrap gap-3 overflow-auto">
 
                 {{-- All products --}}
-                <a href="{{ route('home') }}"
-                    class="category-card text-decoration-none bg-dark text-white {{ request('category') ? '' : 'category-card-active' }}">
-                    <div
-                        class="col-1 p-1 category-icon bg-dark text-white align-items-center justify-content-center rounded">
+                <a href="{{ route('home') }}" class="category-card text-decoration-none text-white {{ request('category') ? '' : 'category-card-active' }}">
+                    <div class="category-icon p-2 bg-dark border rounded">
                         <i class="fa-solid fa-border-all text-warning"></i>
-
                         <strong>All Products</strong>
                         {{-- <small>Browse everything</small> --}}
                     </div>
                 </a>
 
                 @foreach ($categories as $category)
-                    <a href="{{ route('home', ['category' => $category->id]) }}"
-                        class="category-card text-decoration-none {{ request('category') == $category->id ? 'category-card-active' : '' }}">
-                        <div class="category-icon">
-                            <i class="fa-solid fa-tag"></i>
-                        </div>
-
-                        <div>
+                    <a href="{{ route('home', ['category' => $category->id]) }}" class="category-card text-decoration-none text-dark border rounded {{ request('category') == $category->id ? 'category-card-active' : '' }}">
+                        <div class="category-icon d-flex justify-content-center align-items-center me-2" >
+                            <i class="fa-solid fa-tag text-warning"></i>
                             <strong>
                                 {{ $category->category_name }}
                             </strong>
+                        </div>
 
+                        <div>
                             <small>
-                                {{ $category->products_count }}
+                                {{ $category->description }}
                                 products available
                             </small>
                         </div>
@@ -130,7 +126,7 @@
 
                 <span class="badge bg-dark">
                     {{ $products->count() }}
-                    Products
+                    {{ Str::plural('Product', $products->count()) }}
                 </span>
             </div>
 
@@ -144,10 +140,10 @@
                         <div class="col-sm-6 col-lg-3">
                             <div class="card product-card h-100 border-0 shadow-sm">
 
-                                <div class="product-image-wrapper">
+                                <div class="product-image-wrapper position-relative">
                                     @if ($product->image)
                                         <img src="{{ asset('storage/' . $product->image) }}"
-                                            alt="{{ $product->product_name }}" class="product-image">
+                                            alt="{{ $product->product_name }}" class="card-img-top" style="height: 220px; object-fit: cover;">
                                     @else
                                         <div class="product-placeholder">
                                             <i class="fa-solid fa-image fa-3x"></i>
@@ -155,12 +151,12 @@
                                     @endif
 
                                     @if ($product->stock > 0)
-                                        <span class="badge bg-success product-status">
+                                        <span class="badge rounded-pill bg-success position-absolute top-0 end-0 m-2">
                                             <i class="fa-solid fa-check me-1"></i>
                                             Available
                                         </span>
                                     @else
-                                        <span class="badge bg-danger product-status">
+                                        <span class="badge rounded-pill bg-danger position-absolute top-0 end-0 m-2">
                                             Out of Stock
                                         </span>
                                     @endif
@@ -172,7 +168,7 @@
                                     </small>
 
                                     <h3 class="h6 fw-bold">
-                                        {{ $product->product_name }}
+                                        {{ Str::limit($product->product_name,30) }}
                                     </h3>
 
                                     <p class="text-muted small">
@@ -185,7 +181,7 @@
                                         </p>
 
                                         <a href="{{ route('products.show', $product) }}" class="btn btn-dark w-100">
-                                            View Product
+                                            View Details
                                         </a>
                                     </div>
                                 </div>
