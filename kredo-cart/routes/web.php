@@ -38,7 +38,7 @@ Route::get('/categories/{category}', [CategoryController::class, 'show'])
 Route::middleware('auth')->group(function () {
 
 //　Admin
-    Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware', 'admin'], function () {
+    Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => 'admin'], function () {
         // Users
         Route::get('/users', [UsersController::class, 'index'])
             ->name('users.index');
@@ -88,6 +88,15 @@ Route::middleware('auth')->group(function () {
         Route::delete('/orders/{order}', [OrdersController::class, 'destroy'])
             ->name('orders.destroy');
 
+        // Admin customer routes
+        Route::get('/customers', [UsersController::class, 'index'])
+            ->name('customers.index');
+        Route::get('/customers/{customer}', [UsersController::class, 'show'])
+            ->name('customers.show');
+        Route::patch('/customers/{customer}/update-status', [UsersController::class, 'updateStatus'])
+            ->name('customers.updateStatus');
+        Route::delete('/customers/{customer}', [UsersController::class, 'destroy'])
+            ->name('customers.destroy');
     });
 
     // Cart

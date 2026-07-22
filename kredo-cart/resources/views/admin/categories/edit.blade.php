@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Categories_Create')
+@section('title', 'Categories_Edit')
 
 @section('content')
     <div class="container-fluid px-0">
@@ -11,10 +11,10 @@
             <div class="col-10 gx-5">
                 <div class="d-flex justify-content-between align-items-start mb-4">
                     <div>
-                        <h1 class="h3 mb-1">Add New Category</h1>
+                        <h1 class="h3 mb-1">Edit Category</h1>
 
                         <p class="text-muted mb-0">
-                            Create a new category to organize your products.
+                            Update the category information to organize your products.
                         </p>
                     </div>
 
@@ -25,19 +25,20 @@
                 </div>
 
 
-                <form action="{{ route('admin.categories.store') }}" method="POST" class="card shadow rounded-0 p-4">
+                <form action="{{ route('admin.categories.update', $category->id) }}" method="POST" class="card shadow rounded-0 p-4">
                     @csrf
+                    @method('PATCH')
                     <div class="card-title fs-3">Category Information</div>
                     <div class="card-body">
                         <label for="category_name" class="form-label">Category Name</label>
-                        <input type="text" name="category_name" id="category_name" class="form-control" value="{{ old('category_name') }}">
+                        <input type="text" name="category_name" id="category_name" class="form-control" value="{{ old('category_name', $category->category_name) }}">
 
                         <label for="description" class="form-label mt-3">Description</label>
-                        <textarea name="description" id="description" class="form-control" rows="4">{{ old('description') }}</textarea>
+                        <textarea name="description" id="description" class="form-control" rows="4">{{ old('description', $category->description) }}</textarea>
                     </div>
 
                     <div class="d-flex justify-content-end mt-4">
-                        <button type="submit" class="btn btn-warning">Save Category</button>
+                        <button type="submit" class="btn btn-warning">Update Category</button>
                         <a href="{{ route('admin.categories.index') }}" class="btn btn-secondary ms-2">
                             Cancel
                         </a>

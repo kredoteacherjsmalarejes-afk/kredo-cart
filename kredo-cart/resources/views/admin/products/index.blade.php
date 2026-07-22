@@ -63,14 +63,9 @@
                                 <td></td>
                                 <td>
                                     <a href="{{ route('admin.products.edit', $product->id) }}"
-                                        class="btn btn-sm btn-primary"><i class="fa-regular fa-pen-to-square"></i></a>
-                                    <form action="{{ route('admin.products.destroy', $product->id) }}" method="POST"
-                                        style="display:inline;">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-sm btn-danger"><i
-                                                class="fa-solid fa-trash-can"></i></button>
-                                    </form>
+                                        class="btn btn-primary btn-lg"><i class="fa-regular fa-pen-to-square"></i></a>
+                                    <button type="button" class="btn btn-outline-danger btn-lg" data-bs-toggle="modal" data-bs-target="#delete-product-{{ $product->id }}"><i class="fa-solid fa-trash-can text-danger"></i></button>
+                                    @include('admin.products.modals.delete')
                                 </td>
                             </tr>
                         @endforeach
