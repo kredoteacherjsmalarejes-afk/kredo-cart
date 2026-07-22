@@ -8,7 +8,7 @@
 
             @include('admin.layouts.sidebar')
 
-            <div class="col-9 gx-5">
+            <div class="col-9 gx-5 p-2">
                 <div class="d-flex justify-content-between align-items-start mb-4">
                     <div>
                         <h1 class="h3 mb-1">Products Management</h1>
@@ -35,7 +35,6 @@
                             <th>Stock</th>
                             <th>Status</th>
                             <th></th>
-                            <th></th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -58,8 +57,9 @@
                                 <td>{{ $product->category->category_name }}</td>
                                 <td>{{ $product->price }}</td>
                                 <td>{{ $product->stock }}</td>
-                                <td>{{ $product->status }}</td>
-                                <td></td>
+                                <td>
+                                    {!! $product->status === '1' || $product->status === 1 ? '<p class="bg-success text-white text-center rounded-2 m-1">Available</p>' : '<p class="bg-danger text-white text-center rounded-2 m-1">Unavailable</p>' !!}
+                                </td>
                                 <td></td>
                                 <td>
                                     <a href="{{ route('admin.products.edit', $product->id) }}"

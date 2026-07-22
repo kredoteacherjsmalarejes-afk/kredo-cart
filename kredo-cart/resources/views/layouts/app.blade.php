@@ -133,7 +133,7 @@
         </nav>
 
 
-        <main class="flex-grow-1 py-4">
+        <main class="flex-grow-1 py-0 my-0 ">
 
             {{-- Flash Message --}}
             @if (session('success'))
