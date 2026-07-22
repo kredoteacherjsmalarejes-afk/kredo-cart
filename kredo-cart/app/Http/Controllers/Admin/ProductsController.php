@@ -119,7 +119,7 @@ class ProductsController extends Controller
     public function deactivate($id)
     {
         $product = $this->product->findOrFail($id);
-        $product->status = 0; // Set status to inactive
+        $product->status = 2; // Set status to inactive
         $product->save();
 
         return redirect()->route('admin.products.index')->with('success', 'Product deactivated successfully.');

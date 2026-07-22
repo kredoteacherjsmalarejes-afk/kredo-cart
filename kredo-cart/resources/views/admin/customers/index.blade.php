@@ -24,24 +24,23 @@
                         <tr>
                             <th>ID</th>
                             <th>Name</th>
-                            <th>Description</th>
-                            <th>Status</th>
-                            <th>Actions</th>
+                            <th>Email</th>
+                            <th>Role</th>
+                            <th>Date Registered</th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($categories as $category)
+                        @foreach ($customers as $customer)
                             <tr>
-                                <td>{{ $category->id }}</td>
-                                <td>{{ $category->category_name }}</td>
-                                <td>{{ $category->description }}</td>
-                                <td>{{ $category->status }}</td>
+                                <td>{{ $customer->id }}</td>
+                                <td>{{ $customer->name }}</td>
+                                <td>{{ $customer->email }}</td>
+                                <td>{{ $customer->role }}</td>
+                                <td>{{ $customer->created_at }}</td>
                                 <td>
-                                    <a href="{{ route('admin.categories.edit', $category->id) }}"
-                                        class="btn btn-lg btn-primary"><i class="fa-regular fa-pen-to-square"></i></a>
-
-                                      <button type="button" class="btn btn-outline-danger btn-lg" data-bs-toggle="modal" data-bs-target="#delete-category-{{ $category->id }}"><i class="fa-solid fa-trash-can text-danger"></i></button>
-                                    @include('admin.categories.modals.delete')
+                                    <button type="button" class="btn btn-outline-danger btn-lg" data-bs-toggle="modal" data-bs-target="#delete-customer-{{ $customer->id }}"><i class="fa-solid fa-trash-can text-danger"></i></button>
+                                    @include('admin.customers.modals.delete')
 
                                 </td>
                             </tr>

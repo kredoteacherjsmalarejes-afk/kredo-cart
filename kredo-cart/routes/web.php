@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\Admin\OrdersController;
 use App\Http\Controllers\Admin\ProductsController;
 use App\Http\Controllers\Admin\CategoriesController;
+use App\Http\Controllers\Admin\CustomersController;
 
 
 Auth::routes();
@@ -89,13 +90,9 @@ Route::middleware('auth')->group(function () {
             ->name('orders.destroy');
 
         // Admin customer routes
-        Route::get('/customers', [UsersController::class, 'index'])
+        Route::get('/customers', [CustomersController::class, 'index'])
             ->name('customers.index');
-        Route::get('/customers/{customer}', [UsersController::class, 'show'])
-            ->name('customers.show');
-        Route::patch('/customers/{customer}/update-status', [UsersController::class, 'updateStatus'])
-            ->name('customers.updateStatus');
-        Route::delete('/customers/{customer}', [UsersController::class, 'destroy'])
+        Route::delete('/customers/{customer}', [CustomersController::class, 'destroy'])
             ->name('customers.destroy');
     });
     
