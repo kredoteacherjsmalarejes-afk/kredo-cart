@@ -18,15 +18,11 @@ class OrdersController extends Controller
 
     public function index()
     {
-        $orders = $this->order->all();
-        return view('admin.orders.index', compact('orders'));
+        $orders = $this->order->with('user')->get();
+
+        return view('admin.orders.index')->with('orders', $orders);
     }
 
-    public function show($id)
-    {
-        $order = $this->order->findOrFail($id);
-        return view('admin.orders.show', compact('order'));
-    }
 
 
 }

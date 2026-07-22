@@ -30,7 +30,6 @@
                             <th>ID</th>
                             <th>Name</th>
                             <th>Description</th>
-                            <th>Status</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -40,7 +39,6 @@
                                 <td>{{ $category->id }}</td>
                                 <td>{{ $category->category_name }}</td>
                                 <td>{{ $category->description }}</td>
-                                <td>{{ $category->status }}</td>
                                 <td>
                                     <a href="{{ route('admin.categories.edit', $category->id) }}"
                                         class="btn btn-lg btn-primary"><i class="fa-regular fa-pen-to-square"></i></a>
