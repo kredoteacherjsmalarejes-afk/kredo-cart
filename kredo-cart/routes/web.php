@@ -95,7 +95,7 @@ Route::middleware('auth')->group(function () {
         Route::delete('/customers/{customer}', [CustomersController::class, 'destroy'])
             ->name('customers.destroy');
     });
-    
+
         // Cart
         Route::get('/cart', [CartController::class, 'index'])
             ->name('cart.index');
@@ -125,6 +125,9 @@ Route::middleware('auth')->group(function () {
 
         Route::get('/orders/{order}/confirmation', [OrderController::class, 'confirmation'])
             ->name('orders.confirmation');
+
+        Route::get('/orders/{order}', [OrderController::class, 'show'])
+            ->name('orders.show');
 
 });
 
