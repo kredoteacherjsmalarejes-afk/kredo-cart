@@ -78,15 +78,16 @@
         @endfor
     </div>
 
-    @if ($reviewCount > 0)
-        <span class="fw-semibold">
-            {{ number_format($averageRating, 1) }}
-        </span>
+    <span class="fw-bold">
+        {{ number_format($averageRating, 1) }}
+    </span>
 
-        <span class="text-muted">
-            ({{ $reviewCount }}
-            {{ Str::plural('Review', $reviewCount) }})
-        </span>
+    @if ($reviewCount > 0)
+        <a href="{{ route('products.reviews', $product) }}"
+           class="text-dark text-decoration-underline">
+            {{ $reviewCount }}
+            {{ Str::plural('Review', $reviewCount) }}
+        </a>
     @else
         <span class="text-muted">
             No reviews yet
@@ -95,7 +96,7 @@
 </div>
 
                 {{-- Reviews --}}
-                @foreach ($product->reviews as $review)
+                {{-- @foreach ($product->reviews as $review)
                     <div class="border rounded p-3 mb-3">
 
                         <div class="d-flex justify-content-between">
@@ -127,7 +128,7 @@
                         </p>
 
                     </div>
-                @endforeach
+                @endforeach --}}
 
 
 

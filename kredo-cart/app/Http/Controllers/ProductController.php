@@ -92,4 +92,29 @@ class ProductController extends Controller
     {
         //
     }
+
+    public function reviews(Product $product)
+    {
+        $product->load([
+            'category',
+        ]);
+
+        $reviews = $product->reviews()
+            ->with('user')
+            ->latest()
+            ->paginate(10);
+
+        $averageRating = $product->reviews()
+            ->avg('rating');
+
+        $reviewsCount = $product->reviews()
+            ->count();
+
+        return view('products.reviews', compact(
+            'product',
+            'reviews',
+            'averageRating',
+            'reviewsCount'
+        ));
+    }
 }

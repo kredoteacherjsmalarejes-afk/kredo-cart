@@ -47,7 +47,7 @@
                             </div>
                         </div>
 
-                        <form action="{{ route('reviews.store', [$order, $product]) }}"
+                        <form action="{{ route('reviews.store', ['order' => $order->id,'product' => $product->id,]) }}"
                             method="POST">
                             @csrf
 
