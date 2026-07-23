@@ -6,7 +6,7 @@
     <div class="container">
 
         {{-- Hero section --}}
-        <section class="hero-section mb-5 bg-dark text-white p-5 rounded-4 shadow-sm">
+        <section class="hero-section mb-5 bg-dark text-white mt-5 p-5 rounded-4 shadow-sm">
             <div class="row align-items-stretch g-4">
 
                 {{-- Left content --}}
@@ -33,7 +33,12 @@
                     </p>
 
                     {{-- Search --}}
-                    <form action="{{ route('home') }}" method="GET">
+                    <form action="{{ route('products.index') }}" method="GET">
+
+                        @if (request('category'))
+                            <input type="hidden" name="category" value="{{ request('category') }}">
+                        @endif
+
                         <div class="input-group hero-search mb-3">
                             <span class="input-group-text bg-white border-0">
                                 <i class="fa-solid fa-magnifying-glass text-secondary"></i>
@@ -85,30 +90,35 @@
                 Shop by Category
             </h2>
 
-            <div class="category-scroll d-flex flex-nowrap gap-3 overflow-auto">
+            <div class="category-scroll d-flex flex-nowrap gap-3 overflow-auto pb-2">
 
                 {{-- All products --}}
-                <a href="{{ route('home') }}" class="category-card text-decoration-none text-white {{ request('category') ? '' : 'category-card-active' }}">
-                    <div class="category-icon p-2 bg-dark border rounded">
-                        <i class="fa-solid fa-border-all text-warning"></i>
+                <a href="{{ route('products.index',  ['search' => request('search')]) }}" class="category-card text-decoration-none px-3 py-1 border rounded {{ request()->filled('category') ? 'bg-white text-dark' : 'bg-dark text-white border-dark' }}">
+                    <div class="d-flex align-items-center">
+                        <i class="fa-solid fa-border-all text-warning me-2"></i>
+
                         <strong>All Products</strong>
                         {{-- <small>Browse everything</small> --}}
+   
                     </div>
                 </a>
 
                 @foreach ($categories as $category)
-                    <a href="{{ route('home', ['category' => $category->id]) }}" class="category-card text-decoration-none text-dark border rounded {{ request('category') == $category->id ? 'category-card-active' : '' }}">
-                        <div class="category-icon d-flex justify-content-center align-items-center me-2" >
-                            <i class="fa-solid fa-tag text-warning"></i>
-                            <strong>
+                    <a href="{{ route('products.index', ['category' => $category->id]) }}"
+                        class="category-card text-decoration-none text-dark border rounded p-2 {{ request('category') == $category->id ? 'bg-dark text-white border-dark' : 'bg-white text-dark' }}">
+                        <div class="category-icon d-flex justify-content-center align-items-center me-2">
+                            <i class="fa-solid fa-tag text-warning me-2"></i>
+                            <strong class="small">
                                 {{ $category->category_name }}
                             </strong>
                         </div>
 
                         <div>
-                            <small>
+                            @php
+                                $isSelected = request('category') == $category->id;
+                            @endphp
+                            <small class="{{ $isSelected ? 'text-white-50' : 'text-muted' }}">
                                 {{ $category->description }}
-                                products available
                             </small>
                         </div>
                     </a>
@@ -143,7 +153,8 @@
                                 <div class="product-image-wrapper position-relative">
                                     @if ($product->image)
                                         <img src="{{ asset('storage/' . $product->image) }}"
-                                            alt="{{ $product->product_name }}" class="card-img-top" style="height: 220px; object-fit: cover;">
+                                            alt="{{ $product->product_name }}" class="card-img-top"
+                                            style="height: 220px; object-fit: cover;">
                                     @else
                                         <div class="product-placeholder">
                                             <i class="fa-solid fa-image fa-3x"></i>
@@ -168,7 +179,7 @@
                                     </small>
 
                                     <h3 class="h6 fw-bold">
-                                        {{ Str::limit($product->product_name,30) }}
+                                        {{ Str::limit($product->product_name, 30) }}
                                     </h3>
 
                                     <p class="text-muted small">

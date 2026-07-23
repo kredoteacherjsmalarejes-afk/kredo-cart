@@ -3,6 +3,29 @@
 @section('title', $product->product_name)
 
 @section('content')
+
+<div class="container py-4">
+    {{-- Breadcrumb --}}
+    <nav aria-label="breadcrumb" class="mb-3">
+        <ol class="breadcrumb small">
+            <li class="breadcrumb-item">
+                <a href="{{ route('products.index') }}" class="text-decoration-none text-dark">
+                    <i class="fa-solid fa-house me-1"></i>
+                    Home
+                </a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="{{ route('products.index') }}" class="text-decoration-none text-dark">
+                    {{ $product->category?->category_name }}
+                </a>
+            </li>
+
+            <li class="breadcrumb-item active" aria-current="page">
+                {{ $product->product_name }}
+            </li>
+        </ol>
+    </nav>
+
     <div class="container py-5">
         <div class="row g-5">
             <div class="col-md-6">
@@ -156,4 +179,5 @@
             </div>
         </div>
     </div>
+</div>
 @endsection
