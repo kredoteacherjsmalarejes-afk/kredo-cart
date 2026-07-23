@@ -16,8 +16,7 @@
             <div class="modal-body text-center px-5 pt-0 pb-5">
 
                 {{-- ゴミ箱アイコン --}}
-                <div class="d-inline-flex justify-content-center align-items-center
-                            bg-danger-subtle text-danger rounded-circle p-4 mb-3">
+                <div class="d-inline-flex justify-content-center align-items-center bg-danger-subtle text-danger rounded-circle p-4 mb-3">
                     <i class="fa-solid fa-trash-can display-4 fw-bolder"></i>
                 </div>
 

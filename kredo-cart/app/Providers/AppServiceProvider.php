@@ -26,21 +26,18 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         View::composer('*', function ($view) {
+            $cartItems = collect();
 
-        $cartCount = 0;
+            if(auth()->check()){
+                $cart = Cart::where('user_id', auth()->id())
+                            ->with('cartItems')
+                            ->first();
 
-        if(auth()->check()){
+                $cartItems = $cart?->cartItems ?? collect();
+            }
 
-            $cart = Cart::where('user_id', auth()->id())
-                        ->with('cartItems')
-                        ->first();
-
-            $cartCount = $cart->cartItems->sum('quantity');
-        }
-
-        $view->with('cartCount', $cartCount);
-
-    });
+            $view->with('cartItems', $cartItems);
+        });
 
         Gate::define('admin', function ($user) {
             return $user->role === User::ADMIN_ROLE_ID;

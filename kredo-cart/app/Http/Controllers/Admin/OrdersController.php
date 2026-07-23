@@ -24,5 +24,18 @@ class OrdersController extends Controller
     }
 
 
+    public function update(Request $request, string $id)
+    {
+        $request->validate([
+            'status' => 'required',
+        ]);
+
+        $order = $this->order->findOrFail($id);
+        $order-> status = $request->status;
+        $order->save();
+
+        return redirect()->route('admin.orders.index');
+    }
+
 
 }
