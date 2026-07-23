@@ -29,15 +29,14 @@ Route::get('/', [ProductController::class, 'index'])
 Route::get('/products/{product}', [ProductController::class, 'show'])
     ->name('products.show');
 
+Route::get('/products/{product}/reviews', [ProductController::class, 'reviews'])
+    ->name('products.reviews');
+
 Route::get('/categories', [CategoryController::class, 'index'])
     ->name('categories.index');
 
 Route::get('/categories/{category}', [CategoryController::class, 'show'])
     ->name('categories.show');
-
-Route::post('/reviews',[ReviewController::class,'store'])
-    ->middleware('auth')
-    ->name('reviews.store');
 
 
 // Logged-in user routes
@@ -135,15 +134,14 @@ Route::middleware('auth')->group(function () {
             ->name('orders.show');
 
             // Review routes
-        Route::get(
-        '/orders/{order}/products/{product}/review',
+        Route::get('/orders/{order}/products/{product}/review',
         [ReviewController::class, 'create']
-    )->name('reviews.create');
+        )->name('reviews.create');
 
-    Route::post(
-        '/orders/{order}/products/{product}/review',
-        [ReviewController::class, 'store']
-    )->name('reviews.store');
+        Route::post('/orders/{order}/products/{product}/review',
+            [ReviewController::class, 'store']
+        )->name('reviews.store');
+
 });
 
 

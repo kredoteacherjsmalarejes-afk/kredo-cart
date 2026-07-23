@@ -121,7 +121,7 @@
         <span class="text-muted small">
             Unavailable
         </span>
-    @elseif ($order->status !== 'completed')
+    @elseif (!in_array($order->status, ['paid', 'completed', 'delivered']))
         <span class="text-muted small">
             Available after completion
         </span>
