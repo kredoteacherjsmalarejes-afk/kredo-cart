@@ -58,7 +58,7 @@
                                 <td>{{ $product->price }}</td>
                                 <td>{{ $product->stock }}</td>
                                 <td>
-                                    {!! $product->status === '1' || $product->status === 1 ? '<p class="bg-success text-white text-center rounded-2 m-1">Available</p>' : '<p class="bg-danger text-white text-center rounded-2 m-1">Unavailable</p>' !!}
+                                    {!! $product->status === '1' || $product->status === 1 ? '<span class="badge bg-success text-white text-center rounded-2 ">Available</span>' : '<span class="badge bg-danger text-white text-center rounded-2 ">Unavailable</span>' !!}
                                 </td>
                                 <td></td>
                                 <td>

@@ -28,6 +28,7 @@
                             <th>Customer</th>
                             <th>Total</th>
                             <th>Status</th>
+
                             <th></th>
                             <th>Payment</th>
                             <th>Paced On</th>
