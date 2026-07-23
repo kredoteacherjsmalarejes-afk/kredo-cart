@@ -38,7 +38,7 @@
                     {{-- Left side --}}
                     <ul class="navbar-nav me-auto">
                         <li class="nav-item">
-                            <a href="{{ route('home') }}" class="nav-link">
+                            <a href="{{ route('products.index') }}" class="nav-link">
                                 <i class="fa-solid fa-house"></i> Home
                             </a>
                         </li>
@@ -71,13 +71,13 @@
                                     <i class="fa-solid fa-cart-shopping"></i>
                                     {{-- @php
                                         $orderItemsCount = Auth::user()->orderItemsCount();
-                                    @endphp
+                                    @endphp --}}
 
-                                    @if ($orderItemsCount > 0)
+                                    @if ($cartCount > 0)
                                         <span class="position-absolute translate-middle badge rounded-pill bg-danger">
-                                            {{ $orderItemsCount }}
+                                            {{ $cartCount }}
                                         </span>
-                                    @endif --}}
+                                    @endif
                                 </a>
                             </li>
 
