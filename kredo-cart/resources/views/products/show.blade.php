@@ -4,34 +4,45 @@
 
 @section('content')
 
-<div class="container py-4">
-    {{-- Breadcrumb --}}
-    <nav aria-label="breadcrumb" class="mb-3">
-        <ol class="breadcrumb small">
-            <li class="breadcrumb-item">
-                <a href="{{ route('products.index') }}" class="text-decoration-none text-dark">
-                    <i class="fa-solid fa-house me-1"></i>
-                    Home
-                </a>
-            </li>
-            <li class="breadcrumb-item">
-                <a href="{{ route('products.index') }}" class="text-decoration-none text-dark">
-                    {{ $product->category?->category_name }}
-                </a>
-            </li>
+    <div class="container py-4">
+        {{-- Breadcrumb --}}
+        <nav aria-label="breadcrumb" class="mb-3">
+            <ol class="breadcrumb small">
+                <li class="breadcrumb-item">
+                    <a href="{{ route('products.index') }}" class="text-decoration-none text-dark">
+                        <i class="fa-solid fa-house me-1"></i>
+                        Home
+                    </a>
+                </li>
+                <li class="breadcrumb-item">
+                    @if ($product->category)
+                        <a href="{{ route('products.index', [
+                            'category' => $product->category->id,
+                        ]) }}"
+                            class="text-decoration-none text-dark">
 
-            <li class="breadcrumb-item active" aria-current="page">
-                {{ $product->product_name }}
-            </li>
-        </ol>
-    </nav>
+                            {{ $product->category->category_name }}
+                        </a>
+                    @else
+                        <span class="text-muted">
+                            Uncategorized
+                        </span>
+                    @endif
+                </li>
 
-    <div class="container py-5">
+                <li class="breadcrumb-item active" aria-current="page">
+                    {{ $product->product_name }}
+                </li>
+            </ol>
+        </nav>
+
         <div class="row g-5">
-            <div class="col-md-6">
+            <div class="col-md-5">
                 @if ($product->image)
-                    <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->product_name }}"
-                        class="img-fluid rounded shadow-sm w-100" style="height:500px; object-fit:cover;">
+                    <img src="{{ asset('storage/' . $product->image) }}"
+    alt="{{ $product->product_name }}"
+    class="img-fluid rounded shadow-sm bg-light"
+    style="object-fit: contain;">
                 @else
                     <div class="bg-light rounded d-flex justify-content-center align-items-center" style="height: 450px;">
                         <i class="fa-solid fa-image fa-5x text-secondary"></i>
@@ -39,18 +50,52 @@
                 @endif
             </div>
 
-            <div class="col-md-6">
+            <div class="col-md-7">
                 <span class="badge-lg rounded bg-dark text-white mb-3 px-2 py-1">
                     <i class="fa-solid fa-tag"></i>
-                    {{ $product->category?->category_name }}
+                    {{ $product->category?->category_name ?? 'Uncategorized' }}
                 </span>
 
                 <h1 class="display-6 fw-bold">
                     {{ $product->product_name }}
                 </h1>
 
+                {{-- Average rating --}}
+<div class="d-flex align-items-center flex-wrap gap-2 mb-3">
+    @php
+        $averageRating = (float) ($product->reviews_avg_rating ?? 0);
+        $reviewCount = (int) ($product->reviews_count ?? 0);
+        $roundedRating = (int) round($averageRating);
+    @endphp
+
+    <div class="text-warning">
+        @for ($star = 1; $star <= 5; $star++)
+            @if ($star <= $roundedRating)
+                <i class="fa-solid fa-star"></i>
+            @else
+                <i class="fa-regular fa-star"></i>
+            @endif
+        @endfor
+    </div>
+
+    @if ($reviewCount > 0)
+        <span class="fw-semibold">
+            {{ number_format($averageRating, 1) }}
+        </span>
+
+        <span class="text-muted">
+            ({{ $reviewCount }}
+            {{ Str::plural('Review', $reviewCount) }})
+        </span>
+    @else
+        <span class="text-muted">
+            No reviews yet
+        </span>
+    @endif
+</div>
+
                 {{-- Reviews --}}
-                {{-- @foreach ($product->reviews as $review)
+                @foreach ($product->reviews as $review)
                     <div class="border rounded p-3 mb-3">
 
                         <div class="d-flex justify-content-between">
@@ -82,7 +127,9 @@
                         </p>
 
                     </div>
-                @endforeach --}}
+                @endforeach
+
+
 
                 <p class="fs-3 fw-bold">
                     ${{ number_format($product->price, 2) }}
@@ -122,7 +169,13 @@
                                 </label>
 
                                 <input type="number" name="quantity" id="quantity" class="form-control w-25" value="1"
-                                    min="1" max="{{ $product->stock }}">
+                                    min="1" max="{{ $product->stock }}" required>
+
+                                @error('quantity')
+                                    <div class="text-danger small mt-1">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
                             </div>
 
                             <button type="submit" class="btn btn-dark btn-lg w-100">
@@ -148,36 +201,35 @@
 
 
                 {{-- Features --}}
-                <div class="row d-flex flex-wrap gap-4 hero-features inline-block mt-4 text-center">
-                    <p class="col-md-4 fw-bold">
-                        <span>
-                            <i class="fa-solid fa-truck-fast text-warning me-1 fa-2x"></i>
-                        </span>
-                        <br>
-                        Free Shipping
-                    </p>
+                <div class="row g-3 mt-4 text-center">
 
-                    <p class="col-md-4 fw-bold">
-                        <span>
-                            <i class="fa-solid fa-shield-halved text-warning me-1 fa-2x"></i>
+                    <div class="col-4">
+                        <i class="fa-solid fa-truck-fast text-warning fa-2x mb-2"></i>
 
-                        </span>
-                        <br>
-                        Warranty
-                    </p>
+                        <p class="fw-bold small mb-0">
+                            Free Shipping
+                        </p>
+                    </div>
 
-                    <p class="col-md-3 fw-bold">
-                        <span>
-                            <i class="fa-solid fa-rotate-left text-warning me-1 fa-2x"></i>
+                    <div class="col-4">
+                        <i class="fa-solid fa-shield-halved text-warning fa-2x mb-2"></i>
 
-                        </span>
-                        <br>
-                        Easy Returns
-                    </p>
+                        <p class="fw-bold small mb-0">
+                            Warranty
+                        </p>
+                    </div>
+
+                    <div class="col-4">
+                        <i class="fa-solid fa-rotate-left text-warning fa-2x mb-2"></i>
+
+                        <p class="fw-bold small mb-0">
+                            Easy Returns
+                        </p>
+                    </div>
 
                 </div>
             </div>
         </div>
+
     </div>
-</div>
 @endsection

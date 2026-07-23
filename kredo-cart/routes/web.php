@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\OrderController;
@@ -33,6 +34,10 @@ Route::get('/categories', [CategoryController::class, 'index'])
 
 Route::get('/categories/{category}', [CategoryController::class, 'show'])
     ->name('categories.show');
+
+Route::post('/reviews',[ReviewController::class,'store'])
+    ->middleware('auth')
+    ->name('reviews.store');
 
 
 // Logged-in user routes
@@ -129,7 +134,18 @@ Route::middleware('auth')->group(function () {
         Route::get('/orders/{order}', [OrderController::class, 'show'])
             ->name('orders.show');
 
+            // Review routes
+        Route::get(
+        '/orders/{order}/products/{product}/review',
+        [ReviewController::class, 'create']
+    )->name('reviews.create');
+
+    Route::post(
+        '/orders/{order}/products/{product}/review',
+        [ReviewController::class, 'store']
+    )->name('reviews.store');
 });
+
 
 
 
