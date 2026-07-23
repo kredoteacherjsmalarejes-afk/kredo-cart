@@ -90,39 +90,62 @@
                 Shop by Category
             </h2>
 
-            <div class="category-scroll d-flex flex-nowrap gap-3 overflow-auto pb-2">
+            <div class="row g-3 align-items-start">
 
-                {{-- All products --}}
-                <a href="{{ route('products.index',  ['search' => request('search')]) }}" class="category-card text-decoration-none px-3 py-1 border rounded {{ request()->filled('category') ? 'bg-white text-dark' : 'bg-dark text-white border-dark' }}">
-                    <div class="d-flex align-items-center">
+                {{-- left side: All Products only --}}
+                <div class="col-6 col-md-4 col-lg-2">
+                    <a href="{{ route('products.index', [
+                        'search' => request('search'),
+                    ]) }}"
+                        class="category-card d-flex align-items-center
+                       text-decoration-none border rounded px-3 py-2
+                       {{ request()->filled('category') ? 'bg-white text-dark' : 'bg-dark text-white border-dark' }}">
+
                         <i class="fa-solid fa-border-all text-warning me-2"></i>
 
-                        <strong>All Products</strong>
-                        {{-- <small>Browse everything</small> --}}
-   
-                    </div>
-                </a>
-
-                @foreach ($categories as $category)
-                    <a href="{{ route('products.index', ['category' => $category->id]) }}"
-                        class="category-card text-decoration-none text-dark border rounded p-2 {{ request('category') == $category->id ? 'bg-dark text-white border-dark' : 'bg-white text-dark' }}">
-                        <div class="category-icon d-flex justify-content-center align-items-center me-2">
-                            <i class="fa-solid fa-tag text-warning me-2"></i>
-                            <strong class="small">
-                                {{ $category->category_name }}
-                            </strong>
-                        </div>
-
-                        <div>
-                            @php
-                                $isSelected = request('category') == $category->id;
-                            @endphp
-                            <small class="{{ $isSelected ? 'text-white-50' : 'text-muted' }}">
-                                {{ $category->description }}
-                            </small>
-                        </div>
+                        <strong class="small">
+                            All Products
+                        </strong>
                     </a>
-                @endforeach
+                </div>
+
+                {{-- right side: 5 categories --}}
+                <div class="col-lg-10">
+                    <div class="row g-3 row-cols-2 row-cols-md-3 row-cols-lg-5">
+
+                        @foreach ($categories as $category)
+                            @php
+                                $isSelected = (string) request('category') === (string) $category->id;
+                            @endphp
+
+                            <div class="col">
+                                <a href="{{ route('products.index', [
+                                    'category' => $category->id,
+                                    'search' => request('search'),
+                                ]) }}"
+                                    class="category-card d-block h-100
+                               text-decoration-none border rounded px-3 py-2
+                               {{ $isSelected ? 'bg-dark text-white border-dark' : 'bg-white text-dark' }}">
+
+                                    <div class="d-flex align-items-center mb-1">
+                                        <i class="fa-solid fa-tag text-warning me-2"></i>
+
+                                        <strong class="small text-truncate">
+                                            {{ $category->category_name }}
+                                        </strong>
+                                    </div>
+
+                                    <small
+                                        class="d-block text-truncate
+                            {{ $isSelected ? 'text-white-50' : 'text-muted' }}">
+
+                                        {{ $category->description }}
+                                    </small>
+                                </a>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -154,7 +177,7 @@
                                     @if ($product->image)
                                         <img src="{{ asset('storage/' . $product->image) }}"
                                             alt="{{ $product->product_name }}" class="card-img-top"
-                                            style="height: 220px; object-fit: cover;">
+                                            style="height: 220px; object-fit: cover; object-position: center top;">
                                     @else
                                         <div class="product-placeholder">
                                             <i class="fa-solid fa-image fa-3x"></i>

@@ -77,6 +77,7 @@
                             <th class="text-center">Price</th>
                             <th class="text-center">Quantity</th>
                             <th class="text-end">Subtotal</th>
+                            <th class="text-center">Review</th>
                         </tr>
                     </thead>
 
@@ -115,6 +116,40 @@
                                 <td class="text-end fw-bold">
                                     ${{ number_format($item->subtotal, 2) }}
                                 </td>
+                                <td class="text-center">
+    @if (!$item->product)
+        <span class="text-muted small">
+            Unavailable
+        </span>
+    @elseif ($order->status !== 'completed')
+        <span class="text-muted small">
+            Available after completion
+        </span>
+    @else
+        @php
+            $review = auth()->user()
+                ->reviews()
+                ->where('product_id', $item->product_id)
+                ->first();
+        @endphp
+
+        @if ($review)
+            <span class="badge bg-success">
+                <i class="fa-solid fa-check me-1"></i>
+                Reviewed
+            </span>
+        @else
+            <a href="{{ route('reviews.create', [
+                'order' => $order,
+                'product' => $item->product,
+            ]) }}"
+               class="btn btn-outline-dark btn-sm">
+                <i class="fa-regular fa-star me-1"></i>
+                Write a Review
+            </a>
+        @endif
+    @endif
+</td>
                             </tr>
                         @endforeach
                     </tbody>
@@ -128,6 +163,8 @@
                             <th class="text-end">
                                 ${{ number_format($order->total_amount, 2) }}
                             </th>
+
+                            <th></th>
                         </tr>
                     </tfoot>
                 </table>
