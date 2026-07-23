@@ -38,7 +38,7 @@
                                 <td>{{ $customer->name }}</td>
                                 <td>{{ $customer->email }}</td>
                                 <td>
-                                    <p class="mb-1 bg-success rounded-2 text-center text-white">{{ $customer->role === 2 ? 'Customer' : 'Admin' }}</p>
+                                    <span class="badge bg-success rounded-2 text-center text-white">{{ $customer->role === 2 ? 'Customer' : 'Admin' }}</span>
                                 </td>
                                 <td>{{ $customer->created_at }}</td>
                                 <td>
