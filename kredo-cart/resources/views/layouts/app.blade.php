@@ -10,6 +10,9 @@
 
     <title>{{ config('app.name') }} | @yield('title')</title>
 
+    <!-- Favicon -->
+    {{-- <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}"> --}}
+
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
@@ -73,9 +76,10 @@
                                         $orderItemsCount = Auth::user()->orderItemsCount();
                                     @endphp --}}
 
-                                    @if ($cartCount > 0)
+                                    @if (count($cartItems) > 0)
                                         <span class="position-absolute translate-middle badge rounded-pill bg-danger">
-                                            {{ $cartCount }}
+                                            {{ count($cartItems) }}
+                                            <span class="visually-hidden">items in cart</span>
                                         </span>
                                     @endif
                                 </a>

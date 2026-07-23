@@ -39,7 +39,6 @@
                 {{-- 削除フォーム --}}
                 <form action="{{ route('admin.orders.destroy', $order->id) }}"
                     method="post">
-
                     @csrf
                     @method('DELETE')
 

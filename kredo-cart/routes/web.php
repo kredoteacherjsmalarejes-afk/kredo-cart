@@ -89,8 +89,8 @@ Route::middleware('auth')->group(function () {
             ->name('orders.index');
         Route::get('/orders/{order}', [OrdersController::class, 'show'])
             ->name('orders.show');
-        Route::patch('/orders/{order}/update-status', [OrdersController::class, 'updateStatus'])
-            ->name('orders.updateStatus');
+        Route::patch('/orders/{order}/update', [OrdersController::class, 'update'])
+            ->name('orders.update');
         Route::delete('/orders/{order}', [OrdersController::class, 'destroy'])
             ->name('orders.destroy');
 
