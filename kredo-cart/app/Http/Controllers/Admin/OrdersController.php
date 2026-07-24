@@ -36,5 +36,13 @@ class OrdersController extends Controller
         return redirect()->route('admin.orders.index');
     }
 
+    public function destroy($id)
+    {
+        $order = $this->order->findOrFail($id);
+        $order->delete();
+
+        return redirect()->route('admin.orders.index')->with('success', 'Order deleted successfully.');
+    }
+
 
 }
