@@ -108,15 +108,29 @@
 
                         </div>
 
-                        <div class="text-warning">
-                            @for ($star = 1; $star <= 5; $star++)
-                                @if ($star <= $review->rating)
-                                    <i class="fa-solid fa-star"></i>
-                                @else
-                                    <i class="fa-regular fa-star"></i>
-                                @endif
-                            @endfor
-                        </div>
+                        <div class="text-end">
+
+    <div class="text-warning mb-2">
+        @for ($star = 1; $star <= 5; $star++)
+            @if ($star <= $review->rating)
+                <i class="fa-solid fa-star"></i>
+            @else
+                <i class="fa-regular fa-star"></i>
+            @endif
+        @endfor
+    </div>
+
+    @auth
+        @if ($review->user_id === auth()->id())
+            <a href="{{ route('reviews.edit', $review) }}"
+               class="btn btn-sm btn-outline-dark">
+                <i class="fa-solid fa-pen-to-square me-1"></i>
+                Edit
+            </a>
+        @endif
+    @endauth
+
+</div>
 
                     </div>
 

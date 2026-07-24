@@ -134,10 +134,12 @@
         @endphp
 
         @if ($review)
-            <span class="badge bg-success">
-                <i class="fa-solid fa-check me-1"></i>
-                Reviewed
-            </span>
+            <a href="{{ route('reviews.edit', $review) }}"
+   class="badge bg-success text-decoration-none px-3 py-2">
+
+    <i class="fa-solid fa-circle-check me-1"></i>
+    Reviewed
+</a>
         @else
             <a href="{{ route('reviews.create', [
                 'order' => $order,
