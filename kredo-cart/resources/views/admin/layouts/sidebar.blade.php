@@ -1,4 +1,4 @@
-    <aside class="col-md-2 bg-dark text-white p-3">
+    <aside class="col-md-2 bg-dark text-white p-4">
         <h4>Admin</h4>
 
         <hr class="text-white">
