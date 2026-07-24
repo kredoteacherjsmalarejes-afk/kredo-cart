@@ -33,7 +33,7 @@
                     </p>
 
                     {{-- Search --}}
-                    <form action="{{ route('products.index') }}" method="GET">
+                    <form action="{{ route('products.index') }}#featured-products" method="GET">
 
                         @if (request('category'))
                             <input type="hidden" name="category" value="{{ request('category') }}">
@@ -46,7 +46,12 @@
 
                             <input type="text" name="search" value="{{ request('search') }}"
                                 class="form-control border-0 rounded-start" placeholder="Search for products...">
-
+                            @if (request()->filled('search'))
+                                <a href="{{ route('products.index') }}"
+                                    class="btn btn-outline-secondary bg-white border-0 rounded-end">
+                                    <i class="fa-solid fa-xmark"></i>
+                                </a>
+                            @endif
                             <button type="submit" class="btn btn-warning px-4">
                                 <i class="fa-solid fa-magnifying-glass me-1"></i>
                                 Search
@@ -74,7 +79,7 @@
                 </div>
 
                 {{-- Right side --}}
-                <a href="{{ route('products.index') }}"
+                <a href="#shop-category"
                     class="col-lg-5 bg-warning rounded-4 p-4 d-flex justify-content-center align-items-center text-decoration-none">
                     <span class="display-3 fw-bold text-dark">
                         Shop Now
@@ -85,7 +90,7 @@
 
         {{-- Categories --}}
         <section class="mb-5">
-            <h2 class="section-title mb-3">
+            <h2 id="shop-category" class="section-title mb-3">
                 <i class="fa-solid fa-layer-group text-warning me-2"></i>
                 Shop by Category
             </h2>
@@ -96,7 +101,7 @@
                 <div class="col-6 col-md-4 col-lg-2">
                     <a href="{{ route('products.index', [
                         'search' => request('search'),
-                    ]) }}"
+                    ]) }}#shop-category"
                         class="category-card d-flex align-items-center
                        text-decoration-none border rounded px-3 py-2
                        {{ request()->filled('category') ? 'bg-white text-dark' : 'bg-dark text-white border-dark' }}">
@@ -122,7 +127,7 @@
                                 <a href="{{ route('products.index', [
                                     'category' => $category->id,
                                     'search' => request('search'),
-                                ]) }}"
+                                ]) }}#shop-category"
                                     class="category-card d-block h-100
                                text-decoration-none border rounded px-3 py-2
                                {{ $isSelected ? 'bg-dark text-white border-dark' : 'bg-white text-dark' }}">
@@ -152,7 +157,7 @@
         {{-- Featured products --}}
         <section>
             <div class="d-flex justify-content-between align-items-center mb-3">
-                <h2 class="section-title mb-0">
+                <h2 id="featured-products" class="section-title mb-0">
                     <i class="fa-solid fa-fire text-warning me-2"></i>
                     Featured Products
                 </h2>

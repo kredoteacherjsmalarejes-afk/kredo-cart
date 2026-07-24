@@ -39,10 +39,8 @@
         <div class="row g-5">
             <div class="col-md-5">
                 @if ($product->image)
-                    <img src="{{ asset('storage/' . $product->image) }}"
-    alt="{{ $product->product_name }}"
-    class="img-fluid rounded shadow-sm bg-light"
-    style="object-fit: contain;">
+                    <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->product_name }}"
+                        class="img-fluid rounded shadow-sm bg-light" style="object-fit: contain;">
                 @else
                     <div class="bg-light rounded d-flex justify-content-center align-items-center" style="height: 450px;">
                         <i class="fa-solid fa-image fa-5x text-secondary"></i>
@@ -61,39 +59,38 @@
                 </h1>
 
                 {{-- Average rating --}}
-<div class="d-flex align-items-center flex-wrap gap-2 mb-3">
-    @php
-        $averageRating = (float) ($product->reviews_avg_rating ?? 0);
-        $reviewCount = (int) ($product->reviews_count ?? 0);
-        $roundedRating = (int) round($averageRating);
-    @endphp
+                <div class="d-flex align-items-center flex-wrap gap-2 mb-3">
+                    @php
+                        $averageRating = (float) ($product->reviews_avg_rating ?? 0);
+                        $reviewCount = (int) ($product->reviews_count ?? 0);
+                        $roundedRating = (int) round($averageRating);
+                    @endphp
 
-    <div class="text-warning">
-        @for ($star = 1; $star <= 5; $star++)
-            @if ($star <= $roundedRating)
-                <i class="fa-solid fa-star"></i>
-            @else
-                <i class="fa-regular fa-star"></i>
-            @endif
-        @endfor
-    </div>
+                    <div class="text-warning">
+                        @for ($star = 1; $star <= 5; $star++)
+                            @if ($star <= $roundedRating)
+                                <i class="fa-solid fa-star"></i>
+                            @else
+                                <i class="fa-regular fa-star"></i>
+                            @endif
+                        @endfor
+                    </div>
 
-    <span class="fw-bold">
-        {{ number_format($averageRating, 1) }}
-    </span>
+                    <span class="fw-bold">
+                        {{ number_format($averageRating, 1) }}
+                    </span>
 
-    @if ($reviewCount > 0)
-        <a href="{{ route('products.reviews', $product) }}"
-           class="text-dark text-decoration-underline">
-            {{ $reviewCount }}
-            {{ Str::plural('Review', $reviewCount) }}
-        </a>
-    @else
-        <span class="text-muted">
-            No reviews yet
-        </span>
-    @endif
-</div>
+                    @if ($reviewCount > 0)
+                        <a href="{{ route('products.reviews', $product) }}" class="text-dark text-decoration-underline">
+                            {{ $reviewCount }}
+                            {{ Str::plural('Review', $reviewCount) }}
+                        </a>
+                    @else
+                        <span class="text-muted">
+                            No reviews yet
+                        </span>
+                    @endif
+                </div>
 
                 {{-- Reviews --}}
                 {{-- @foreach ($product->reviews as $review)
@@ -138,7 +135,7 @@
 
                 <p>
                     @if ($product->stock > 0)
-                        <span class="badge-lg rounded text-success bg-light border border-success px-2 py-1 me-2">
+                        <span class="badge-lg rounded text-success bg-success-subtle border border-success px-2 py-1 me-2">
                             <i class="fa-solid fa-circle-check"></i>
                             In Stock
                         </span>

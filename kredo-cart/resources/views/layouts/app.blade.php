@@ -203,7 +203,7 @@
 
                 <ul class="list-unstyled">
                     <li>
-                        <a href="{{ route('home') }}" class="text-decoration-none text-secondary">
+                        <a href="{{ route('products.index') }}" class="text-decoration-none text-secondary">
                             Home
                         </a>
                     </li>
