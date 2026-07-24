@@ -142,6 +142,16 @@ Route::middleware('auth')->group(function () {
             [ReviewController::class, 'store']
         )->name('reviews.store');
 
+        Route::get(
+            '/reviews/{review}/edit',
+            [ReviewController::class, 'edit']
+        )->name('reviews.edit');
+
+        Route::patch(
+            '/reviews/{review}',
+            [ReviewController::class, 'update']
+        )->name('reviews.update');
+
 });
 
 

@@ -149,4 +149,57 @@ class ReviewController extends Controller
             ->route('orders.show', $order)
             ->with('success', 'Your review has been submitted.');
     }
+
+    /**
+     * レビュー編集画面
+     */
+    public function edit(Review $review)
+    {
+        if ((int) $review->user_id !== (int) auth()->id()) {
+            return redirect()
+                ->route('products.reviews', $review->product_id)
+                ->with('error', 'You cannot edit this review.');
+        }
+
+        $review->load([
+            'product.category',
+        ]);
+
+        return view('reviews.edit', compact('review'));
+    }
+
+    /**
+     * レビュー更新
+     */
+    public function update(Request $request, Review $review)
+    {
+        if ((int) $review->user_id !== (int) auth()->id()) {
+            return redirect()
+                ->route('products.reviews', $review->product_id)
+                ->with('error', 'You cannot update this review.');
+        }
+
+        $validated = $request->validate([
+            'rating' => [
+                'required',
+                'integer',
+                'min:1',
+                'max:5',
+            ],
+            'comment' => [
+                'nullable',
+                'string',
+                'max:1000',
+            ],
+        ]);
+
+        $review->update([
+            'rating' => $validated['rating'],
+            'comment' => $validated['comment'] ?? null,
+        ]);
+
+        return redirect()
+            ->route('products.reviews', $review->product_id)
+            ->with('success', 'Your review has been updated.');
+    }
 }
