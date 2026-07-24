@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Category;
 
 class CategoriesController extends Controller
 {
@@ -11,7 +12,7 @@ class CategoriesController extends Controller
 
     public function __construct()
     {
-        $this->category = new \App\Models\Category();
+        $this->category = new Category();
     }
 
     public function index()
