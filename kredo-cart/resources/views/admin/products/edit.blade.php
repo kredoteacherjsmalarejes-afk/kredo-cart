@@ -9,35 +9,20 @@
        @include('admin.layouts.sidebar')
 
 {{-- Main content --}}
-        <main class="col-md-9 bg-light p-4">
+        <main class="col-md-10 bg-light p-4 ">
             <div class="d-flex justify-content-between align-items-start mb-4">
-
-                    <nav aria-label="breadcrumb">
-                        <ol class="breadcrumb small mb-2">
-                            <li class="breadcrumb-item">
-                                <a href="{{ route('admin.products.index') }}"
-                                   class="text-decoration-none text-muted">
-                                    Products
-                                </a>
-                            </li>
-
-                            <li class="breadcrumb-item active">
-                                Edit Product
-                            </li>
-                        </ol>
-                    </nav>
-
+                <div>
                     <h1 class="h3 mb-1">Edit Product</h1>
 
                     <p class="text-muted mb-0">
                         Edit the details of your marketplace item.
                     </p>
-
-                <a href="{{ route('admin.products.index') }}"
-                   class="btn btn-outline-secondary">
-                    <i class="fa-solid fa-arrow-left me-1"></i>
-                    Back to Products
-                </a>
+                </div>
+                    <a href="{{ route('admin.products.index') }}"
+                    class="btn btn-outline-secondary">
+                        <i class="fa-solid fa-arrow-left me-1"></i>
+                        Back to Products
+                    </a>
             </div>
 
             @if ($errors->any())

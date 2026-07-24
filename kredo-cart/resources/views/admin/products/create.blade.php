@@ -9,23 +9,9 @@
        @include('admin.layouts.sidebar')
 
 {{-- Main content --}}
-        <main class="col-md-9 bg-light p-4">
+        <main class="col-md-10 bg-light p-4">
             <div class="d-flex justify-content-between align-items-start mb-4">
                 <div>
-                    <nav aria-label="breadcrumb">
-                        <ol class="breadcrumb small mb-2">
-                            <li class="breadcrumb-item">
-                                <a href="{{ route('admin.products.index') }}"
-                                   class="text-decoration-none text-muted">
-                                    Products
-                                </a>
-                            </li>
-
-                            <li class="breadcrumb-item active">
-                                Add New Product
-                            </li>
-                        </ol>
-                    </nav>
 
                     <h1 class="h3 mb-1">Add New Product</h1>
 
