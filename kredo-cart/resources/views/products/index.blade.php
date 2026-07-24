@@ -135,15 +135,12 @@
                                     <div class="d-flex align-items-center mb-1">
                                         <i class="fa-solid fa-tag text-warning me-2"></i>
 
-                                        <strong class="small text-truncate">
+                                        <strong class="small text-break" style="white-space: normal;">
                                             {{ $category->category_name }}
                                         </strong>
                                     </div>
 
-                                    <small
-                                        class="d-block text-truncate
-                            {{ $isSelected ? 'text-white-50' : 'text-muted' }}">
-
+                                    <small class="d-block text-break {{ $isSelected ? 'text-white-50' : 'text-muted' }}" style="white-space: normal">
                                         {{ $category->description }}
                                     </small>
                                 </a>
