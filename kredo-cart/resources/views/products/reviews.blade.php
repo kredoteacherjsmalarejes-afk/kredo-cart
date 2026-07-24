@@ -102,7 +102,17 @@
                                 </h3>
 
                                 <small class="text-muted">
-                                    {{ $review->created_at->format('M d, Y') }}
+                                    Reviewed:
+                                    {{ $review->created_at->format('M d, Y g:i A') }}
+
+                                    @if ($review->updated_at->ne($review->created_at))
+                                        <br>
+                                        <span class="text-primary">
+                                            <i class="fa-solid fa-pen-to-square me-1"></i>
+                                            Updated:
+                                            {{ $review->updated_at->format('M d, Y g:i A') }}
+                                        </span>
+                                    @endif
                                 </small>
                             </div>
 
@@ -110,27 +120,26 @@
 
                         <div class="text-end">
 
-    <div class="text-warning mb-2">
-        @for ($star = 1; $star <= 5; $star++)
-            @if ($star <= $review->rating)
-                <i class="fa-solid fa-star"></i>
-            @else
-                <i class="fa-regular fa-star"></i>
-            @endif
-        @endfor
-    </div>
+                            <div class="text-warning mb-2">
+                                @for ($star = 1; $star <= 5; $star++)
+                                    @if ($star <= $review->rating)
+                                        <i class="fa-solid fa-star"></i>
+                                    @else
+                                        <i class="fa-regular fa-star"></i>
+                                    @endif
+                                @endfor
+                            </div>
 
-    @auth
-        @if ($review->user_id === auth()->id())
-            <a href="{{ route('reviews.edit', $review) }}"
-               class="btn btn-sm btn-outline-dark">
-                <i class="fa-solid fa-pen-to-square me-1"></i>
-                Edit
-            </a>
-        @endif
-    @endauth
+                            @auth
+                                @if ($review->user_id === auth()->id())
+                                    <a href="{{ route('reviews.edit', $review) }}" class="btn btn-sm btn-outline-dark">
+                                        <i class="fa-solid fa-pen-to-square me-1"></i>
+                                        Edit
+                                    </a>
+                                @endif
+                            @endauth
 
-</div>
+                        </div>
 
                     </div>
 
